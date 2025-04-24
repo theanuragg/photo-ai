@@ -15,7 +15,7 @@ export class FalAIModel {
         webhookUrl: `${process.env.WEBHOOK_BASE_URL}/fal-ai/webhook/image`,
     });
 
-    return { request_id, response_url };
+    return { request_id, response_url,  };
   }
 
   public async trainModel(zipUrl: string, triggerWord: string) {
@@ -28,7 +28,7 @@ export class FalAIModel {
         webhookUrl: `${process.env.WEBHOOK_BASE_URL}/fal-ai/webhook/train`,
     });
 
-    return { request_id, response_url };
+    return { request_id, response_url,   };
   }
 
   public async generateImageSync(tensorPath: string) {
@@ -37,9 +37,14 @@ export class FalAIModel {
             prompt: "Generate a head shot for this user in front of a white background",
             loras: [{ path: tensorPath, scale: 1 }]
         },
-    })
-    return {
-      imageUrl: response.data.images[0].url
+    });
+
+    if (!response.data.images || response.data.images.length === 0) {
+        throw new Error("No images were generated.");
     }
+
+    return {
+      imageUrl: response.data.images[0].url 
+    };
   }
 }
