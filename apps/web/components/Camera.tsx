@@ -1,23 +1,22 @@
 "use client"
-import { useAuth } from "@clerk/nextjs"
 import { BACKEND_URL } from "@/app/config"
 import axios from "axios";
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { ImageCard, ImageCardSkeleton, TImage } from "./ImageCard";
+import {useAuth} from '@clerk/nextjs'
 
 export function Camera() {
     const [images, setImages] = useState<TImage[]>([ ]);
     const [imagesLoading, setImagesLoading] = useState(true);
-    const { getToken } = useAuth();
+    const { userId } = useAuth();
   
     const [hovered, setHovered] = useState<number | null>(null);
   
     useEffect(() => {
       (async () => {
         try {
-          const token = await getToken();
           const response = await axios.get(`${BACKEND_URL}/image/bulk`, {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: { clerkId: userId },
           });
           setImages(response.data.images);
         } catch (error) {
@@ -26,20 +25,19 @@ export function Camera() {
           setImagesLoading(false);
         }
       })();
-    }, []);
+    }, [userId]);
   
     useEffect(() => {
       (async () => {
         if (images.find((x) => x.status !== "Generated")) {
           await new Promise((r) => setTimeout(r, 5000));
-          const token = await getToken();
           const response = await axios.get(`${BACKEND_URL}/image/bulk`, {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: {clerkId: userId},
           });
           setImages(response.data.images);
         }
       })();
-    }, [images]);
+    }, [images, userId]);
   
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pt-0 px-4">

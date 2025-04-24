@@ -58,7 +58,7 @@ export default function Dashboard() {
       <div className="fixed bottom-0 left-0 w-full flex justify-center">
         <div className="w-full max-w-6xl flex justify-center">
           <TabDock
-            items={items.map(({ content, ...rest }) => rest)} 
+            items={items} 
             defaultValue="camera"
             value={activeTab}
             onValueChange={handleTabChange}

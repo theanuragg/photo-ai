@@ -18,23 +18,22 @@ export function SelectModel({setSelectedModel, selectedModel}: {
     setSelectedModel: (model: string) => void;
     selectedModel?: string;
 }) {
-    const { getToken } = useAuth()
+    const { userId } = useAuth()
     const [modelLoading, setModalLoading] = useState(true);
     const [models, setModels] = useState<TModel[]>([]);
 
     useEffect(() => {
         (async() => {
-            const token = await getToken();
             const response = await axios.get(`${BACKEND_URL}/models`, {
                 headers: {
-                    "Authorization": `Bearer ${token}`
+                    clerkId: userId
                 }
             })
             setModels(response.data.models);
             setSelectedModel(response.data.models[0]?.id)
             setModalLoading(false)
         })()
-    }, [])
+    }, [userId, setSelectedModel])
 
     return (
         <div className="w-full max-w-3xl mx-auto p-4">

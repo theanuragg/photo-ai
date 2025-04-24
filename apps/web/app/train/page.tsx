@@ -27,7 +27,7 @@ import { useRouter } from "next/navigation"
 import { useAuth } from "@clerk/nextjs"
 
 export default function Train() {
-    const { getToken } = useAuth();
+    const { userId } = useAuth();
     const [zipUrl, setZipUrl] = useState("");
     const [type, setType] = useState("Man")
     const [age, setAge] = useState<string>()
@@ -49,12 +49,10 @@ export default function Train() {
             name
         };
 
-        const token = await getToken()
+    
         const response = await axios.post(`${BACKEND_URL}/ai/training`, input, {
             headers: {
-                Authorization
-                
-                : `Bearer ${token}`
+                clerkId: userId,
             }
         });
         router.push("/");

@@ -18,9 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { UploadModal } from "@/components/ui/upload";
 import { useState } from "react";
-import { TrainModelInput } from "common/inferred";
 import axios from "axios";
 import { BACKEND_URL } from "@/app/config";
 import { useRouter } from "next/navigation";
@@ -29,7 +27,7 @@ import { toast } from "react-hot-toast";
 import { FileUpload } from "./ui/Fileupload";
 
 export function Train() {
-  const { getToken } = useAuth();
+  const { userId } = useAuth();
   const [imageUrl, setImageUrl] = useState("");
   const [type, setType] = useState("Man");
   const [age, setAge] = useState<string>();
@@ -43,7 +41,7 @@ export function Train() {
   const handleFileUpload = (files: File[]) => {
     if (files.length > 0) {
       const file = files[0];
-      if (file.type.startsWith('image/')) {
+      if (file && file.type.startsWith('image/')) {
         setImageUrl("dummy-url");
         toast.success("File uploaded successfully");
       } else {
@@ -70,10 +68,9 @@ export function Train() {
         name,
       };
 
-      const token = await getToken();
       await axios.post(`${BACKEND_URL}/ai/training`, input, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          clerkId: userId,
         },
       });
       toast.success("Model training started successfully");

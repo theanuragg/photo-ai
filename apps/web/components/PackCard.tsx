@@ -1,6 +1,7 @@
 import { BACKEND_URL } from "@/app/config";
 import { useAuth } from "@clerk/nextjs"
 import axios from "axios";
+import { use } from "react";
 import toast from 'react-hot-toast';
 
 export interface TPack {
@@ -12,17 +13,16 @@ export interface TPack {
 }
 
 export function PackCard(props: TPack & {selectedModelId: string}) {
-    const { getToken } = useAuth()
+    const { userId } = useAuth()
 
     return <div className="border rounded-xl hover:border-red-300 border-2 p-2 cursor-pointer" onClick={async () => {
         toast("Pack generation started successfully")
-        const token = await getToken();
         await axios.post(`${BACKEND_URL}/pack/generate`, {
             packId: props.id,
             modelId: props.selectedModelId
         }, {
             headers: {
-                Authorization: `Bearer ${token}`
+                clerkId: userId,
             }
         })
     }}>

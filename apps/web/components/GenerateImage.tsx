@@ -10,11 +10,12 @@ import { BACKEND_URL } from "@/app/config";
 import { SelectModel } from "./Models";
 import toast from "react-hot-toast";
 
+
 export function GenerateImage() {
     const [prompt, setPrompt] = useState("");
     const [selectedModel, setSelectedModel] = useState<string>();
     const [images, setImages] = useState<string[]>([]);
-    const { getToken } = useAuth();
+    const { userId } = useAuth();
 
     const handleGenerate = async () => {
         if (!prompt || !selectedModel) {
@@ -23,14 +24,13 @@ export function GenerateImage() {
         }
 
         try {
-            const token = await getToken();
             const response = await axios.post(`${BACKEND_URL}/ai/generate`, {
                 prompt,
                 modelId: selectedModel,
                 num: 1 
             }, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    clerkId: userId
                 }
             });
             
