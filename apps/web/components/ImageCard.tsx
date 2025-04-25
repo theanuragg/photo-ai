@@ -24,25 +24,28 @@ export const ImageCard = React.memo(
     setHovered: React.Dispatch<React.SetStateAction<number | null>>;
   }) {
     return (
-      <div
-        onMouseEnter={() => setHovered(index)}
-        onMouseLeave={() => setHovered(null)}
-        className={cn(
-          "rounded-lg relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-60 md:h-96 w-full transition-all duration-300 ease-out",
-          hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
-        )}
-      >
-        <img src={imageUrl} alt={`Image ${id}`} className="absolute inset-0 w-full h-full object-cover" />
-
+      <React.Fragment>
         <div
+          onMouseEnter={() => setHovered(index)}
+          onMouseLeave={() => setHovered(null)}
           className={cn(
-            "absolute inset-0 bg-black/50 flex items-end py-8 px-4 transition-opacity duration-300",
-            hovered === index ? "opacity-100" : "opacity-0"
+        "rounded-lg relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-60 md:h-96 w-full transition-all duration-300 ease-out",
+        hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
           )}
         >
-          <div className="text-white">Status: {status}</div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={imageUrl} alt={`Image ${id}`} className="absolute inset-0 w-full h-full object-cover" />
+
+          <div
+        className={cn(
+          "absolute inset-0 bg-black/50 flex items-end py-8 px-4 transition-opacity duration-300",
+          hovered === index ? "opacity-100" : "opacity-0"
+        )}
+          >
+        <div className="text-white">Status: {status}</div>
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 );
