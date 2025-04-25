@@ -1,7 +1,7 @@
 "use client"
 import { BACKEND_URL } from "@/app/config"
 import axios from "axios";
-import { use, useEffect, useState } from "react"
+import {  useEffect, useState } from "react"
 import { ImageCard, ImageCardSkeleton, TImage } from "./ImageCard";
 import {useAuth} from '@clerk/nextjs'
 
@@ -40,7 +40,7 @@ export function Camera() {
     }, [images, userId]);
   
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 pt-0 px-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {images.map((image, index) => (
           <ImageCard 
             key={index} 
@@ -54,8 +54,7 @@ export function Camera() {
           <>
             <ImageCardSkeleton />
             <ImageCardSkeleton />
-            <ImageCardSkeleton />
-            <ImageCardSkeleton />
+            
           </>
         )}
       </div>
