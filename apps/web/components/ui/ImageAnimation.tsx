@@ -57,9 +57,8 @@ export default function BackgroundSlider() {
             <Image
               src={src}
               alt={`Slide ${index}`}
-              layout="fill"
-              objectFit="cover"
-              className="opacity-50 blur-sm"
+              fill
+              className="opacity-50 blur-sm object-cover"
               priority
             />
           </div>
