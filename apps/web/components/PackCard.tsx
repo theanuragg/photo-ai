@@ -1,43 +1,63 @@
 import { BACKEND_URL } from "@/app/config";
-import { useAuth } from "@clerk/nextjs"
+import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
-import { use } from "react";
-import toast from 'react-hot-toast';
+import React from "react";
+import toast from "react-hot-toast";
 
 export interface TPack {
-    id: string;
-    name: string;
-    imageUrl1: string;
-    imageUrl2: string;
-    description: string;
+  id: string;
+  name: string;
+  imageUrl1: string;
+  imageUrl2: string;
+  description: string;
 }
 
-export function PackCard(props: TPack & {selectedModelId: string}) {
-    const { userId } = useAuth()
+export function PackCard(props: TPack & { selectedModelId: string }) {
+  const { userId } = useAuth();
 
-    return <div className="border rounded-xl hover:border-red-300 border-2 p-2 cursor-pointer" onClick={async () => {
-        toast("Pack generation started successfully")
-        await axios.post(`${BACKEND_URL}/pack/generate`, {
+  return (
+    <div
+      className=" rounded-xl hover:border-red-300 border-2 p-2 cursor-pointer"
+      onClick={async () => {
+        toast("Pack generation started successfully");
+        await axios.post(
+          `${BACKEND_URL}/pack/generate`,
+          {
             packId: props.id,
-            modelId: props.selectedModelId
-        }, {
+            modelId: props.selectedModelId,
+          },
+          {
             headers: {
-                clerkId: userId,
-            }
-        })
-    }}>
-        <div className="flex p-4 gap-4">
-            <img key={`${props.id}-1`} src={props.imageUrl1} width="50%" className="rounded" alt={`${props.name} - Image 1`} />
-            <img key={`${props.id}-2`} src={props.imageUrl2} width="50%" className="rounded" alt={`${props.name} - Image 2`} />
-        </div>
+              clerkId: userId,
+            },
+          }
+        );
+      }}
+    >
+    <React.Fragment key={props.id}>
+      <div className="flex p-4 gap-4">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+        key={`${props.id}-1`}
+        src={props.imageUrl1}
+        width="50%"
+        className="rounded"
+        alt={`${props.name} - Image 1`}
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+        key={`${props.id}-2`}
+        src={props.imageUrl2}
+        width="50%"
+        className="rounded"
+        alt={`${props.name} - Image 2`}
+        />
+      </div>
+    </React.Fragment>
 
-        <div className="text-xl font-bold pb-2">
-            {props.name}
-        </div>
+      <div className="text-xl font-bold pb-2">{props.name}</div>
 
-        <div className="text-sm">
-            {props.description} 
-        </div>
-    </div>    
-  
+      <div className="text-sm">{props.description}</div>
+    </div>
+  );
 }

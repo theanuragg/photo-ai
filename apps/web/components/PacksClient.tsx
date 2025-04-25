@@ -17,7 +17,7 @@ export function PacksClient({packs}: {
                     Select Pack
                 </div>
                 <div className="grid md:grid-cols-3 gap-4 p-4 grids-cols-1">
-                    {packs.map(p => <PackCard selectedModelId={selectedModelId!} {...p} />)}
+                    {packs.map(p => <PackCard key={p.id} selectedModelId={selectedModelId!} {...p} />)}
                 </div>
             </div>
         </div>
