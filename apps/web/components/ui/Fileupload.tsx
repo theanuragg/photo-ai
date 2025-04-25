@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import React, { useRef, useState, DragEvent } from "react";
 import { motion } from "framer-motion";
 import { IconUpload } from "@tabler/icons-react";
+import toast from "react-hot-toast";
 
 const mainVariant = {
   initial: {
@@ -43,7 +44,9 @@ export const FileUpload = ({
       return;
     }
     setFiles((prevFiles) => [...prevFiles, ...imageFiles]);
-    onChange && onChange(imageFiles);
+    if (onChange) {
+      onChange(imageFiles);
+    }
   };
 
   const handleClick = () => {

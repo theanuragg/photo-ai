@@ -1,7 +1,7 @@
 "use client";
 import JSZip from "jszip";
 import axios from "axios";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { BACKEND_URL, CLOUDFLARE_URL } from "@/app/config";
 
@@ -31,7 +31,7 @@ export function UploadModal({onUploadDone}: {
                     const content = await zip.generateAsync({type: "blob"});
                     const formData = new FormData();
                     formData.append("file", content);
-                    const res = await axios.put(url, formData);
+                    await axios.put(url, formData);
                     onUploadDone(`${CLOUDFLARE_URL}/${key}`);
                 }
             }
