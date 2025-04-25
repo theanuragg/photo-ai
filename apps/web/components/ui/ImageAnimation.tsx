@@ -35,9 +35,7 @@ const images = [
   "/30.jpg",
   "/31.jpg",
   "/32.jpg",
-  
-  
-];
+].map((path) => `${process.env.NEXT_PUBLIC_BASE_URL || ""}${path}`);
 
 export default function BackgroundSlider() {
   return (
